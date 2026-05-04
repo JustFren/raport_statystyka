@@ -43,5 +43,6 @@ print(data[data["nazwa"]=="Legnica"])
 
 data.drop(columns=['2019_2', '2020_2'], inplace=True)
 data.to_csv('cleaned_ludnosc_wg_miast.csv', index=False, encoding='utf-8-sig')
-
+data.at["M.st.Warszawa od 2002", 'nazwa'] = "Warszawa"
 print(data.head(30))
+print(data[data["nazwa"]=="Warszawa"])
