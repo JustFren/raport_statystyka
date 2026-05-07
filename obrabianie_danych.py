@@ -37,7 +37,9 @@ def skewness(list):
     mean=arythm_mean(list)
     for i in range(len(list)):
         out+=(list[i]-mean)**3
-    out=out/((len(list)-1)*(standard_deviation(list)**3)+0.0001)
+    if len(list)-1==0 or standard_deviation(list)==0:
+        return 0   
+    out=out/((len(list)-1)*(standard_deviation(list)**3))
     return out
 def kurtosis(list):
     sum1=0
