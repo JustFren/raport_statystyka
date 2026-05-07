@@ -47,6 +47,8 @@ def kurtosis(list):
     for i in range(n):
         sum1+=(list[i]-mean)**4
         sum2+=(list[i]-mean)**2
+    if sum2==0 or n==0 or sum1==0:
+        return 0
     return (1/n)*(sum1)/(((1/n)*sum2)**2)    
 
 miesiace=["styczeń","luty","marzec","kwiecień","maj","czerwiec","lipiec","sierpień","wrzesień","październik","listopad","grudzień"]
@@ -82,7 +84,7 @@ def clear_2019():
     return plik_2019
 def clear_2020():
     to_drop=[]
-    plik_2020=pd.read_excel("./merged_2020.ods",header=0,index_col=0)
+    plik_2020=pd.read_excel("merged_2020.ods",header=0,index_col=0)
     for i in plik_2020.index:
         if str(plik_2020["Miasto"][i])=="nan":
             to_drop.append(i)
@@ -466,7 +468,7 @@ def roczna_kurtoza_ile_pociagow(plik):
         temp=[]
         for i in range(12):
             temp.append(plik.loc[j,miesiace[i]+".1"])
-        srednia["roczna_kurtoza_ile_pociagow"].append(skewness(temp))
+        srednia["roczna_kurtoza_ile_pociagow"].append(kurtosis(temp))
     return srednia  
 
 def roczna_kurtoza_ile_spoznionych(plik):
@@ -476,7 +478,7 @@ def roczna_kurtoza_ile_spoznionych(plik):
         temp=[]
         for i in range(12):
             temp.append(plik.loc[j,miesiace[i]])
-        srednia["roczna_kurtoza_ile_spoznionych"].append(skewness(temp))
+        srednia["roczna_kurtoza_ile_spoznionych"].append(kurtosis(temp))
     return srednia
 
 def roczna_kurtoza_ile_spoznienia(plik):  
@@ -486,7 +488,7 @@ def roczna_kurtoza_ile_spoznienia(plik):
         temp=[]
         for i in range(12):
             temp.append(plik.loc[j,miesiace[i]+".2"])
-        srednia["roczna_kurtoza_ile_spoznienia"].append(skewness(temp))
+        srednia["roczna_kurtoza_ile_spoznienia"].append(kurtosis(temp))
     return srednia
 
 def roczna_kurtoza_ile_spoznienia_na_pociag(plik):  
@@ -496,7 +498,7 @@ def roczna_kurtoza_ile_spoznienia_na_pociag(plik):
         temp=[]
         for i in range(12):
             temp.append(plik.loc[j,miesiace[i]+".2"]/(plik.loc[j,miesiace[i]]+1))
-        srednia["roczna_kurtoza_ile_spoznienia_na_pociag"].append(skewness(temp))
+        srednia["roczna_kurtoza_ile_spoznienia_na_pociag"].append(kurtosis(temp))
     return srednia
 
 def obrobka_danych(plik,path):
@@ -532,12 +534,12 @@ def rocznie_ile_pociagow_spoznionych_do_wszystkich_spoznionych(plik):
 
 def rocznie_prawd_na_spoz(plik):
     prawd={}
-    prawd["prawdopodobienstwo_na_spoznienie_kazda_stacja_oddzielnie"]=[]
+    prawd["prawd_na_spoznienie_kazda_stacja_oddzielnie"]=[]
     for j in plik.index:
         temp=0
         for i in range(12):
             temp+=(float(plik.loc[j,miesiace[i]])/float(plik.loc[j,miesiace[i]+".1"]+1))
-        prawd["prawdopodobienstwo_na_spoznienie_kazda_stacja_oddzielnie"].append(temp/12)
+        prawd["prawd_na_spoznienie_kazda_stacja_oddzielnie"].append(temp/12)
     return prawd
 
 def to_excel_2019():
@@ -548,13 +550,13 @@ def to_excel_2019():
     t=pd.DataFrame(rocznie_ile_pociagow_spoznionych_do_wszystkich_spoznionych(plik),plik.index)
     t=t.assign(**(rocznie_prawd_na_spoz(plik)))
     print(t)
-    t.to_excel("./wyniki/prawdopodobienstwo_pociagow_2019.xlsx")
+    t.to_excel("./wyniki/prawd_pociagow_2019.xlsx")
     t=pd.DataFrame(rocznie_ile_pociagow_spoznionych_do_wszystkich_spoznionych(temp[0]),temp[0].index)
     t=t.assign(**(rocznie_prawd_na_spoz(temp[0])))
-    t.to_excel("./wyniki/prawdopodobienstwo_pociagow_2019_wiecej_100k.xlsx")
+    t.to_excel("./wyniki/prawd_pociagow_2019_wiecej_100k.xlsx")
     t=pd.DataFrame(rocznie_ile_pociagow_spoznionych_do_wszystkich_spoznionych(temp[1]),temp[1].index)
     t=t.assign(**(rocznie_prawd_na_spoz(temp[1])))
-    t.to_excel("./wyniki/prawdopodobienstwo_pociagow_2019_mniej_100k.xlsx")
+    t.to_excel("./wyniki/prawd_pociagow_2019_mniej_100k.xlsx")
 
 def to_excel_2020():
     plik=clear_2020()
@@ -563,13 +565,13 @@ def to_excel_2020():
     obrobka_danych(temp[1],"./wyniki/miasta_2020_mniej_niz_100k.xlsx")
     t=pd.DataFrame(rocznie_ile_pociagow_spoznionych_do_wszystkich_spoznionych(plik),plik.index)
     t=t.assign(**(rocznie_prawd_na_spoz(plik)))
-    t.to_excel("./wyniki/prawdopodobienstwo_pociagow_2020.xlsx")
+    t.to_excel("./wyniki/prawd_pociagow_2020.xlsx")
     t=pd.DataFrame(rocznie_ile_pociagow_spoznionych_do_wszystkich_spoznionych(temp[0]),temp[0].index)
     t=t.assign(**(rocznie_prawd_na_spoz(temp[0])))
-    t.to_excel("./wyniki/prawdopodobienstwo_pociagow_2020_wiecej_100k.xlsx")
+    t.to_excel("./wyniki/prawd_pociagow_2020_wiecej_100k.xlsx")
     t=pd.DataFrame(rocznie_ile_pociagow_spoznionych_do_wszystkich_spoznionych(temp[1]),temp[1].index)
-    t=t.assign(**(rocznie_prawd_na_spoz[1]))
-    t.to_excel("./wyniki/prawdopodobienstwo_pociagow_2020_mniej_100k.xlsx")
+    t=t.assign(**(rocznie_prawd_na_spoz(temp[1])))
+    t.to_excel("./wyniki/prawd_pociagow_2020_mniej_100k.xlsx")
 
 to_excel_2019()
-#to_excel_2020()
+to_excel_2020()
