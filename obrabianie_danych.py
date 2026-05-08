@@ -380,7 +380,8 @@ def roczna_srednia_ile_spoznienia_na_pociag(plik):
         temp=[]
         for i in range(12):
             if plik.loc[j,miesiace[i]]==0:
-                return 0
+                temp.append(0)
+                continue
             temp.append(plik.loc[j,miesiace[i]+".2"]/(plik.loc[j,miesiace[i]]))
         srednia["roczna_srednia_ile_spoznienia_na_pociag"].append(int(arythm_mean(temp)))
     return srednia
@@ -422,7 +423,8 @@ def roczna_wariancja_ile_spoznienia_na_pociag(plik):
         temp=[]
         for i in range(12):
             if plik.loc[j,miesiace[i]] ==0:
-                return 0
+                temp.append(0)
+                continue
             temp.append(plik.loc[j,miesiace[i]+".2"]/(plik.loc[j,miesiace[i]]))
         srednia["roczna_wariancja_ile_spoznienia_na_pociag"].append(variance(temp))
     return srednia
@@ -464,7 +466,8 @@ def roczna_skosnosc_ile_spoznienia_na_pociag(plik):
         temp=[]
         for i in range(12):
             if plik.loc[j,miesiace[i]] == 0:
-                return 0
+                temp.append(0)
+                continue
             temp.append(plik.loc[j,miesiace[i]+".2"]/(plik.loc[j,miesiace[i]]))
         srednia["roczna_skosnosc_ile_spoznienia_na_pociag"].append(skewness(temp))
     return srednia
@@ -506,7 +509,8 @@ def roczna_kurtoza_ile_spoznienia_na_pociag(plik):
         temp=[]
         for i in range(12):
             if plik.loc[j,miesiace[i]]==0:
-                return 0
+                temp.append(0)
+                continue
             temp.append(plik.loc[j,miesiace[i]+".2"]/(plik.loc[j,miesiace[i]]))
         srednia["roczna_kurtoza_ile_spoznienia_na_pociag"].append(kurtosis(temp))
     return srednia
