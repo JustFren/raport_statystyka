@@ -43,10 +43,10 @@ def add_city_names(path, year="2020"):
     print(df.head())
     df.to_excel(path, index=True)
 
-#add_city_names('wyniki\miasta_2019_mniej_niz_100k.xlsx', year="2019")
-#add_city_names('wyniki\miasta_2019_wiecej_niz_100k.xlsx', year="2019")
-#add_city_names('wyniki\miasta_2020_mniej_niz_100k.xlsx', year="2020")
-#add_city_names('wyniki\miasta_2020_wiecej_niz_100k.xlsx', year="2020")
+add_city_names('wyniki\miasta_2019_mniej_niz_100k.xlsx', year="2019")
+add_city_names('wyniki\miasta_2019_wiecej_niz_100k.xlsx', year="2019")
+add_city_names('wyniki\miasta_2020_mniej_niz_100k.xlsx', year="2020")
+add_city_names('wyniki\miasta_2020_wiecej_niz_100k.xlsx', year="2020")
 add_city_names('wyniki\prawd_pociagow_2020.xlsx', year="2020")
 add_city_names('wyniki\prawd_pociagow_2019.xlsx', year="2019")
 
