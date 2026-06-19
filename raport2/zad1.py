@@ -28,14 +28,26 @@ alpha=0.05
 left_crit=(-1)*scp.norm.ppf(q=1-alpha,loc=0,scale=1)
 right_crit=scp.norm.ppf(q=1-alpha,loc=0,scale=1)
 both_crit=scp.norm.ppf(q=1-(alpha/2),loc=0,scale=1)
+mu=1.5
+Z=(Z-mu)/(sigma/np.sqrt(len(p)))
 t=np.linspace(-3,3,500)
 pdf_draw=[scp.norm.pdf(x) for x in t]
 plt.plot(t,pdf_draw)
 plt.fill_between(x=t,y1=pdf_draw,where = (t<-both_crit),color='r')
 plt.fill_between(x=t,y1=pdf_draw,where = (t>both_crit),color='r')
-mu=1.5
-Z=(Z-mu)/(sigma/np.sqrt(len(p)))
-print(Z)
-#plt.show()
+#plt.vlines(Z,0,0.2)
+plt.show()
+
+quit()
+plt.plot(t,pdf_draw)
+plt.fill_between(x=t,y1=pdf_draw,where = (t<left_crit),color='r')
+plt.vlines(Z,0,0.2)
+plt.show()
+
+plt.plot(t,pdf_draw)
+plt.fill_between(x=t,y1=pdf_draw,where = (t>right_crit),color='r')
+plt.vlines(Z,0,0.2)
+plt.show()
+
 p_value=2*(scp.norm.sf(abs(Z)))
 print(p_value)
